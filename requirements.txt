@@ -1,0 +1,6 @@
+networkx
+requests
+tqdm
+numpy
+prettytable
+matplotlib
