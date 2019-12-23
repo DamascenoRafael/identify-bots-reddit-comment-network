@@ -4,27 +4,9 @@ import matplotlib.pyplot as plt
 
 import paths_constants
 from utils import *
+from dataframe_reader import DataframeReader
 
-class PlottingMetrics:
-    def __init__(self, dataset_file, execution_type):
-        valid = {'strongly', 'weakly'}
-        if execution_type not in valid:
-            raise ValueError("PlottingMetrics: execution_type must be one of %r." % valid)
-
-        datafame_file = paths_constants.results_subgraph(dataset_file.stem, execution_type) / (execution_type + '-dataframe.csv')
-
-        self.dataset_file = dataset_file
-        self.execution_type = execution_type
-
-        self.dataframe = self.__read_dataframe(datafame_file)
-        self.dataframe_metrics_dict = dict()
-        self.dataframe_column_names = []
-
-    def __read_dataframe(self, dataframe_file):
-        print('Reading dataframe file... Depending on the size this may take a while.')
-        dataframe = pd.read_csv(dataframe_file)
-        dataframe = dataframe.set_index('username')
-        return dataframe
+class PlottingMetrics(DataframeReader):
     
     def print_single_value_metric(self, metric_name):
         subgraph_metrics_path = paths_constants.metrics_subgraph(self.dataset_file.stem, self.execution_type)
