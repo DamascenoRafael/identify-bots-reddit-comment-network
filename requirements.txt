@@ -4,3 +4,4 @@ tqdm
 numpy
 prettytable
 matplotlib
+pandas
