@@ -99,11 +99,11 @@ class ComponnentAnalysis(Network):
         self.__save_tuple_file(frac_reciprocity_bots, 'frac_reciprocity_bots', only_summary=True)
         self.__save_tuple_file(frac_reciprocity_users, 'frac_reciprocity_users', only_summary=True)
 
-        network_reciprocity_user = network_reciprocity_numerador/network_reciprocity_denominador
-        self.__save_single_value_file(network_reciprocity_user, 'network_reciprocity_from_user')
+        network_reciprocity_author = network_reciprocity_numerador/network_reciprocity_denominador
+        self.__save_single_value_file(network_reciprocity_author, 'network_reciprocity_author_metric')
 
         network_reciprocity_nx = nx.overall_reciprocity(self.DG)
-        self.__save_single_value_file(network_reciprocity_nx, 'network_reciprocity_from_nx')
+        self.__save_single_value_file(network_reciprocity_nx, 'network_reciprocity_nx_metric')
 
     def __save_tuple_file(self, node_info, filename, only_summary=False):
         subgraph_metrics_path = paths_constants.metrics_subgraph(self.dataset_file.stem, self.execution_type)
@@ -115,11 +115,9 @@ class ComponnentAnalysis(Network):
                 values.append(val)
         else:
             self.dataframe_column_names.append(filename)
-            with open(subgraph_metrics_path / filename, 'w') as file:
-                for key, val in node_info:
-                    values.append(val)
-                    self.dataframe_metrics_dict.setdefault(key, []).append(float(val))
-                    file.write(key + ' ' + str(val) + '\n')
+            for key, val in node_info:
+                values.append(val)
+                self.dataframe_metrics_dict.setdefault(key, []).append(float(val))
 
         with open(subgraph_metrics_path / (filename + '_summary'), 'w') as file:
             file.write(filename + '\n')
@@ -132,6 +130,7 @@ class ComponnentAnalysis(Network):
         subgraph_metrics_path = paths_constants.metrics_subgraph(self.dataset_file.stem, self.execution_type)
         subgraph_metrics_path.mkdir(parents=True, exist_ok=True)
         with open(subgraph_metrics_path / filename, 'w') as file:
+            file.write(filename + '\n')
             file.write(str(value) + '\n')
     
     def save_dataframe(self):
@@ -139,7 +138,7 @@ class ComponnentAnalysis(Network):
             print('Run calculate_all_metrics() first. Current metrics are empty.')
             return
         
-        self.dataframe_column_names.append('isBot')
+        self.dataframe_column_names.append('is_bot')
         for key in self.dataframe_metrics_dict:
             self.dataframe_metrics_dict[key].append(int(key in self.all_bots))
 
@@ -154,6 +153,7 @@ class ComponnentAnalysis(Network):
                 'out_degree': int,
                 'sum_out_weight': int})
 
+        self.dataframe.index.name = 'username'
         datafame_file = paths_constants.results_subgraph(self.dataset_file.stem, self.execution_type) / (self.execution_type + '-dataframe.csv')
         self.dataframe.to_csv(datafame_file)
 
