@@ -61,7 +61,7 @@ class PlottingMetrics(DataframeReader):
         plt.legend()
         
         if save:
-            self.save_plot(plt, 'ccdf', metric_1, metric_2)
+            self.__save_plot(plt, 'ccdf', metric_1, metric_2)
         
         plt.show()
         plt.clf()
@@ -97,17 +97,17 @@ class PlottingMetrics(DataframeReader):
         plt.legend(loc='upper right')
         
         if save:
-            self.save_plot(plt, 'scatter', metric_x, metric_y)
+            self.__save_plot(plt, 'scatter', metric_x, metric_y)
         
         plt.show()
         plt.clf()
 
     
-    def save_plot(self, plot, chart_type, metric_1, metric_2):
+    def __save_plot(self, plot, chart_type, metric_1, metric_2):
         charts_subgraph_path = paths_constants.charts_subgraph(self.dataset_file.stem, self.execution_type)
         charts_subgraph_path.mkdir(parents=True, exist_ok=True)
         filename = (chart_type + '_' + metric_1 + '_X_' + metric_2 + '.png') if metric_2 else (chart_type + '_' + metric_1 + '.png')
-        plt.savefig(charts_subgraph_path / filename)
+        plot.savefig(charts_subgraph_path / filename)
 
 
 class PlottingWeaklyMetrics(PlottingMetrics):

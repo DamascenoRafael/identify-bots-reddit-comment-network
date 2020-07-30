@@ -69,7 +69,6 @@ class RedditFile:
             print('Run generate_edgelist() first. Current edgelist is empty.')
             return
 
-        # save edgelist
         with open(paths_constants.dataset_edgelist(self.dataset_file.stem), 'w') as file:
             for (i,j), w in self.edgelist.items():
                 file.write(str(i) + ' ' + str(j) + ' ' + str(w) + '\n')
