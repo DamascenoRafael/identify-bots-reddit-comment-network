@@ -42,12 +42,16 @@ class ComponnentAnalysis(Network):
         self.__save_tuple_file(sum_out_weight, 'sum_out_weight')
 
         diff_degree = []
+        diff_weight = []
         sum_degree  = []
+        sum_weight  = []
         frac_degree = []
         frac_weight = []
         for node in self.DG.nodes():
             diff_degree.append((node, in_degree[node] - out_degree[node]))
+            diff_weight.append((node, sum_in_weight[node] - sum_out_weight[node]))
             sum_degree.append((node, in_degree[node] + out_degree[node]))
+            sum_weight.append((node, sum_in_weight[node] + sum_out_weight[node]))
 
             num_frac_degree = in_degree[node]
             den_frac_degree = out_degree[node]
@@ -61,7 +65,9 @@ class ComponnentAnalysis(Network):
             frac_degree.append((node, num_frac_degree/den_frac_degree))
             frac_weight.append((node, num_frac_weight/den_frac_weight))
         self.__save_tuple_file(diff_degree, 'diff_degree')
+        self.__save_tuple_file(diff_weight, 'diff_weight')
         self.__save_tuple_file(sum_degree, 'sum_degree')
+        self.__save_tuple_file(sum_weight, 'sum_weight')
         self.__save_tuple_file(frac_degree, 'frac_degree')
         self.__save_tuple_file(frac_weight, 'frac_weight')
 
@@ -147,7 +153,9 @@ class ComponnentAnalysis(Network):
             orient='index',
             columns=self.dataframe_column_names).astype(
                 {'diff_degree': int,
+                'diff_weight': int,
                 'sum_degree': int,
+                'sum_weight': int,
                 'in_degree': int,
                 'sum_in_weight': int,
                 'out_degree': int,
