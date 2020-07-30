@@ -28,3 +28,6 @@ def metrics_subgraph(dataset, execution_type):
 
 def charts_subgraph(dataset, execution_type):
     return results_subgraph(dataset, execution_type) / 'charts'
+
+def neural_network(dataset, execution_type):
+    return results_subgraph(dataset, execution_type) / 'neural_network'
