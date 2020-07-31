@@ -100,8 +100,9 @@ class NeuralNetwork(DataframeReader):
 
     def __train_model(self, sess, model, optimizer, X, Y, batch_size=100):
         total_batch = int(len(X) / batch_size)
-        ini = 0
-        for i in range(total_batch + 1):
+        train_order = np.random.permutation(X.shape[0])
+        for i in train_order:
+            ini = i * batch_size
             if ini >= len(X):
                 continue
             fin = (i + 1) * batch_size
