@@ -233,45 +233,46 @@ class NeuralNetwork(DataframeReader):
         
         with sess.as_default():
             sess.run(init) 
-            acc_ant = 0
-            cost_ant = 1000
 
             print("Starting epoch executions...")
 
             if show_progress:
+                acc_ant = 0
+                cost_ant = 1000
                 print('\nShowing progress of epochs with validation_cost improvements...')
                 print('Epoch \t|\t train_accuracy \t|\t validation_accuracy \t|\t test_accuracy')
 
             for epoch in range(epoch_runs):
-                is_better_cost = False
-                is_better_acc = False
-                
                 self.__train_model(sess, model, optimizer, X_train, Y_train, 400)
 
                 train_cost, train_acc, train_rec, train_output = self.__evaluate_model(sess, model, X_train, Y_train, 400)
                 val_cost, val_acc, val_rec, val_output         = self.__evaluate_model(sess, model, X_val, Y_val, 400)
                 test_cost, test_acc, test_rec, test_output     = self.__evaluate_model(sess, model, X_test, Y_test, 400)
                 
-                if val_cost <= cost_ant:
-                    cost_ant = val_cost
-                    if show_progress:
-                        print(epoch + 1, '\t|\t', train_acc, '\t|\t', val_acc, '\t|\t', test_acc)
-                    is_better_cost = True
-                    
-                if val_acc >= acc_ant:
-                    acc_ant = val_acc
-                    is_better_acc = True
+                if show_progress:
+                    is_better_cost = False
+                    is_better_acc = False
 
-                model_results.append([
-                    is_better_cost,
-                    is_better_acc,
-                    train_acc,
-                    train_cost,
-                    val_acc,
-                    val_cost,
-                    test_acc,
-                    test_cost
-                ])
+                    if val_cost <= cost_ant:
+                        cost_ant = val_cost
+                        if show_progress:
+                            print(epoch + 1, '\t|\t', train_acc, '\t|\t', val_acc, '\t|\t', test_acc)
+                        is_better_cost = True
+                        
+                    if val_acc >= acc_ant:
+                        acc_ant = val_acc
+                        is_better_acc = True
+    
+                    model_results.append([
+                        is_better_cost,
+                        is_better_acc,
+                        train_acc,
+                        train_cost,
+                        val_acc,
+                        val_cost,
+                        test_acc,
+                        test_cost
+                    ])
   
         print('Finishing neural network execution...')
         if show_progress:
@@ -322,4 +323,3 @@ class NeuralNetworkWeaklyComponent(NeuralNetwork):
 class NeuralNetworkStronglyComponent(NeuralNetwork):
     def __init__(self, dataset_file):
         super().__init__(dataset_file, 'strongly')
-        
