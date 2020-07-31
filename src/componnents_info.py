@@ -9,7 +9,7 @@ class ComponnentsInfo(Network):
     def __components_info(self, execution_type, save):
         valid = {'strongly', 'weakly'}
         if execution_type not in valid:
-            raise ValueError("execution_type must be one of %r." % valid)
+            raise ValueError("ComponnentsInfo: execution_type must be one of %r." % valid)
 
         components = []
         if execution_type == 'weakly':

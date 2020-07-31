@@ -6,7 +6,7 @@ class DataframeReader:
     def __init__(self, dataset_file, execution_type):
         valid = {'strongly', 'weakly'}
         if execution_type not in valid:
-            raise ValueError("PlottingMetrics: execution_type must be one of %r." % valid)
+            raise ValueError("DataframeReader: execution_type must be one of %r." % valid)
 
         datafame_file = paths_constants.results_subgraph(dataset_file.stem, execution_type) / (execution_type + '-dataframe.csv')
 
