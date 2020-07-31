@@ -26,8 +26,16 @@ def results_subgraph(dataset, execution_type):
 def metrics_subgraph(dataset, execution_type):
     return results_subgraph(dataset, execution_type) / 'metrics'
 
+def metrics_dataframe_subgraph_file(dataset, execution_type):
+    return results_subgraph(dataset, execution_type) / 'metrics-dataframe.csv'
+
 def charts_subgraph(dataset, execution_type):
     return results_subgraph(dataset, execution_type) / 'charts'
 
 def neural_network(dataset, execution_type):
     return results_subgraph(dataset, execution_type) / 'neural_network'
+
+def neural_network_model_file(dataset, execution_type, epoch_runs, train_folds, validation_folds, test_folds):
+    parameters_resume = str(epoch_runs) + '-' + str(train_folds) + '-' + str(validation_folds) + '-' + str(test_folds)
+    filename = parameters_resume + '_neural_network_results_(y_output-y_test)'
+    return neural_network(dataset, execution_type) / filename

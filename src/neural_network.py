@@ -19,7 +19,11 @@ from dataframe_reader import DataframeReader
 
 class NeuralNetwork(DataframeReader):
     def __init__(self, dataset_file, execution_type):
-        self.parameters_resume = ''
+        valid = {'strongly', 'weakly'}
+        if execution_type not in valid:
+            raise ValueError("NeuralNetwork: execution_type must be one of %r." % valid)
+
+        self.neural_network_model_file = ''
         self.model_Y_test = np.array([])
         self.model_Y_test_output = np.array([])
         super().__init__(dataset_file, execution_type)
@@ -297,9 +301,16 @@ class NeuralNetwork(DataframeReader):
             print('\nLast epoch with validation_cost improvements...')
             print(df_results[(df_results['is_better_cost']==True)][-1:].to_string())
 
-        self.parameters_resume = str(epoch_runs) + '-' + str(train_folds) + '-' + str(validation_folds) + '-' + str(test_folds)
         self.model_Y_test = Y_test[:,0]
         self.model_Y_test_output = test_output[:,0]
+        self.neural_network_model_file = paths_constants.neural_network_model_file(
+            self.dataset_file.stem,
+            self.execution_type,
+            epoch_runs,
+            train_folds,
+            validation_folds,
+            test_folds
+        )
     
 
     def save_results_from_model(self):
@@ -309,9 +320,8 @@ class NeuralNetwork(DataframeReader):
 
         neural_network_path = paths_constants.neural_network(self.dataset_file.stem, self.execution_type)
         neural_network_path.mkdir(parents=True, exist_ok=True)
-        filename = self.parameters_resume + '_neural_network_results_(y_output-y_test)'
 
-        with open(neural_network_path / filename, 'w') as file:
+        with open(self.neural_network_model_file, 'w') as file:
             for index, test_output in enumerate(self.model_Y_test_output):
                 file.write(str(test_output) + ' ' + str(self.model_Y_test[index]) + '\n')
 

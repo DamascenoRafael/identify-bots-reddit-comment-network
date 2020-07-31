@@ -8,7 +8,7 @@ class DataframeReader:
         if execution_type not in valid:
             raise ValueError("DataframeReader: execution_type must be one of %r." % valid)
 
-        datafame_file = paths_constants.results_subgraph(dataset_file.stem, execution_type) / (execution_type + '-dataframe.csv')
+        datafame_file = paths_constants.metrics_dataframe_subgraph_file(dataset_file.stem, execution_type)
 
         self.dataset_file = dataset_file
         self.execution_type = execution_type

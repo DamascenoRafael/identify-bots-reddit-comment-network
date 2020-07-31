@@ -162,7 +162,7 @@ class ComponnentAnalysis(Network):
                 'sum_out_weight': int})
 
         self.dataframe.index.name = 'username'
-        datafame_file = paths_constants.results_subgraph(self.dataset_file.stem, self.execution_type) / (self.execution_type + '-dataframe.csv')
+        datafame_file = paths_constants.metrics_dataframe_subgraph_file(self.dataset_file.stem, self.execution_type)
         self.dataframe.to_csv(datafame_file)
 
 
