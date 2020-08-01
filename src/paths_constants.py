@@ -35,7 +35,10 @@ def charts_subgraph(dataset, execution_type):
 def neural_network(dataset, execution_type):
     return results_subgraph(dataset, execution_type) / 'neural_network'
 
-def neural_network_model_file(dataset, execution_type, epoch_runs, train_folds, validation_folds, test_folds):
+def neural_network_model(dataset, execution_type, epoch_runs, train_folds, validation_folds, test_folds):
     parameters_resume = str(epoch_runs) + '-' + str(train_folds) + '-' + str(validation_folds) + '-' + str(test_folds)
-    filename = parameters_resume + '_neural_network_results_(y_output-y_test)'
-    return neural_network(dataset, execution_type) / filename
+    return neural_network(dataset, execution_type) / parameters_resume
+
+def neural_network_model_file(dataset, execution_type, epoch_runs, train_folds, validation_folds, test_folds):
+    folder =  neural_network_model(dataset, execution_type, epoch_runs, train_folds, validation_folds, test_folds)
+    return folder / 'neural_network_results_(y_output-y_test)'

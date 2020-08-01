@@ -318,8 +318,7 @@ class NeuralNetwork(DataframeReader):
            print('Run execute_neural_network first. Current model_Y_test or model_Y_test_output are empty.')
            return 
 
-        neural_network_path = paths_constants.neural_network(self.dataset_file.stem, self.execution_type)
-        neural_network_path.mkdir(parents=True, exist_ok=True)
+        self.neural_network_model_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(self.neural_network_model_file, 'w') as file:
             for index, test_output in enumerate(self.model_Y_test_output):
