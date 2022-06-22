@@ -1,7 +1,7 @@
 networkx==2.4
 requests==2.24.0
 tqdm==4.48.0
-numpy==1.19.1
+numpy==1.22.0
 prettytable==0.7.2
 matplotlib==3.3.0
 pandas==1.1.0
